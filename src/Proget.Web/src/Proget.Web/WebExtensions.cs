@@ -2,18 +2,18 @@ namespace Proget.Web;
 
 public static class WebExtensions
 {
-    public static IServiceCollection AddWeb(this IServiceCollection services, string? section = "web")
+    public static WebApplicationBuilder AddWeb(this WebApplicationBuilder builder, string? section = "web")
     {
-        services.AddValidateOptions<WebOptions>(section);
-        var options = services.GetOptions<WebOptions>(section);
+        builder.Services.AddValidateOptions<WebOptions>(section);
+        var options = builder.Services.GetOptions<WebOptions>(section);
 
         if (!options.DisplayBanner)
         {
-            return services;
+            return builder;
         }
 
         WriteLine(FiggleFonts.Doom.Render($"{options.Name}:{options.Version}"));
 
-        return services;
+        return builder;
     }
 }
