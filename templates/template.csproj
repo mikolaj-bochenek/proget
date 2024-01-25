@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>FRAMEWORK</TargetFramework>
+    <Version>0.0.0</Version>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>NAME</AssemblyName>
+    <Title>NAME</Title>
+    <Authors>Mikołaj Bochenek</Authors>
+    <Company>Progmat</Company>
+    <Description>NAME</Description>
+    <PackageId>NAME</PackageId>
+    <PackageTags>NAME</PackageTags>
+    <PackageReleaseNotes>NAME</PackageReleaseNotes>
+    <PackageProjectUrl>https://github.com/softwave-pl/proget/wiki</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/softwave-pl/proget</RepositoryUrl>
+    <PackageRepositoryType>git</PackageRepositoryType>
+  </PropertyGroup>
+
+  <ItemGroup>
+  
+  </ItemGroup>
+
+</Project>
