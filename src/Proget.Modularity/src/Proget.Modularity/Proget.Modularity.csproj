@@ -24,6 +24,7 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="8.0.0" />
     <ProjectReference Include="../../../Proget.Linq/src/Proget.Linq/Proget.Linq.csproj" />
+    <ProjectReference Include="../../../Proget.Cqrs.Events/src/Proget.Cqrs.Events/Proget.Cqrs.Events.csproj" />
   </ItemGroup>
 
 </Project>

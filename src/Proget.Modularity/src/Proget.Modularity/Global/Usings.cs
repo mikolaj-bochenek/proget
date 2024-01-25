@@ -11,3 +11,4 @@ global using Microsoft.AspNetCore.Mvc;
 
 global using Proget.Modularity.Controllers;
 global using Proget.Linq;
+global using Proget.Cqrs.Events;
