@@ -37,6 +37,8 @@ mkdir -p ./src/$name/src && mkdir -p ./src/$name/scripts && mkdir -p ./src/$name
 (
 cd ./src/$name/src && dotnet new classlib -n $name -f $framework --force \
     && rm -f $name/Class1.cs \
+    && mkdir $name/Global \
+    && touch $name/Global/Usings.cs \
     && cp ../../../templates/template.csproj $name/$name.csproj \
     && sed -i '' "s/NAME/$name/g" $name/$name.csproj \
     && sed -i '' "s/FRAMEWORK/$framework/g" $name/$name.csproj \
