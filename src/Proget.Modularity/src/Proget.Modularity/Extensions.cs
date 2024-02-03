@@ -2,13 +2,41 @@ namespace Proget.Modularity;
 
 public static class Extensions
 {
-    public static WebApplicationBuilder AddModularity(this WebApplicationBuilder builder, string modulePrefix)
+    public static IApplicationBuilder UseModularity(this IApplicationBuilder app)
     {
-        var assemblies = builder.LoadAssemblies(modulePrefix);
-        var modules = builder.LoadModules(assemblies);
+        var modules = app.ApplicationServices.GetRequiredService<List<IModule>>();
+       
+        modules.ForEach(m => m.Use(app));
+        return app;
+    }
+
+    public static WebApplicationBuilder AddModularity(this WebApplicationBuilder builder, string? section = "modularity")
+    {
+        builder.Services.AddValidateOptions<ModularityOptions>(section);
+        var options = builder.Services.GetOptions<ModularityOptions>(section);
+
+        if (!options.Enabled)
+        {
+            return builder;
+        }
         
-        builder.Services
-            .AddEvents(assemblies);
+        var assemblies = builder.LoadAssemblies(options.ModulePrefix);
+        var modules = builder.LoadModules(assemblies);
+
+        builder.Services.AddSingleton(assemblies);
+        builder.Services.AddSingleton(modules);
+
+        if (options.LoggingEnabled)
+        {
+            WriteLine("Enabled modules: {0}", string.Join(", ", modules.Select(m => m.Name)));
+        }
+
+        if (options.FrameworkEnabled)
+        {
+            builder.Services
+                .AddEvents(assemblies)
+                .AddMessaging(opt => opt.AddInMemory());
+        }
         
         modules.ForEach(m => m.Register(builder.Services));
 
@@ -61,7 +89,6 @@ public static class Extensions
             .OrderBy(x => x.Name)
             .Select(Activator.CreateInstance)
             .Cast<IModule>()
-            .Tap(x => WriteLine($"Loaded module: {x.Name}"))
             .ToList();
         
         return modules;
@@ -71,19 +98,28 @@ public static class Extensions
     {
         return builder.ConfigureAppConfiguration((ctx, cfg) =>
         {
-            foreach (var settings in GetSettings("*"))
+            foreach (var settings in GetSettings("*", 2))
             {
                 cfg.AddJsonFile(settings);
             }
 
-            foreach (var settings in GetSettings($"*.{ctx.HostingEnvironment.EnvironmentName}"))
+            foreach (var settings in GetSettings($"*.{ctx.HostingEnvironment.EnvironmentName}", 3))
             {
                 cfg.AddJsonFile(settings);
             }
 
-            IEnumerable<string> GetSettings(string pattern)
-                => Directory.EnumerateFiles(ctx.HostingEnvironment.ContentRootPath,
+            IEnumerable<string> GetSettings(string pattern, int segments)
+            {
+                var files = Directory.EnumerateFiles(ctx.HostingEnvironment.ContentRootPath,
                     $"module.{pattern}.json", SearchOption.AllDirectories);
+                
+                return files.Where(file =>
+                {
+                    var fileName = Path.GetFileNameWithoutExtension(file);
+                    var segmentsCount = fileName.Count(c => c == '.') + 1;
+                    return segmentsCount == segments;
+                });
+            }
         });
     }
 
