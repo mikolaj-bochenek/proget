@@ -1,6 +1,6 @@
-namespace Proget.Web;
+namespace Proget.Web.Options;
 
-public sealed class WebOptions
+internal sealed class WebOptions
 {
     [Required(ErrorMessage = "Name is required")]
     public string Name { get; set; } = string.Empty;
