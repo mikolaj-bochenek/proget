@@ -7,4 +7,6 @@ global using Microsoft.Extensions.Options;
 global using Microsoft.AspNetCore.Builder;
 global using Microsoft.AspNetCore.Routing;
 
+global using Proget.Web.Options;
+
 global using Figgle;
