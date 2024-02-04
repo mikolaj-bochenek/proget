@@ -3,24 +3,32 @@
 set -e
 
 cleanup() {
-  echo "Wystąpił błąd. Wycofywanie zmian..."
+  echo "Error occured. Reverting changes..."
   rm -rf ./src/$name
   exit 1
 }
 
-while getopts n:f: flag
-do
-  case "${flag}" in
-    n) name=${OPTARG};;
-    f) framework=${OPTARG};;
-    *) echo 'Option not exists. Use -n to provide package name and -f to provide framework.'; exit 1;;
+display_help() {
+  echo "Usage: $0 [options]"
+  echo "Options:"
+  echo "  -n    Name of the package"
+  echo "  -f    Framework version"
+  echo "  -h    Show this help message"
+}
+
+while getopts s:p:d:n:c:h: option; do
+  case $option in
+    n) name=$OPTARG;;
+    f) framework=$OPTARG;;
+    h) display_help; exit 0;;
+    *) display_help; exit 1;;
   esac
 done
 
 if [ -z "$name" ] || [ -z "$framework" ]; then
-  echo "Nazwa pakietu i framework są wymagane."
-  exit 1
+  echo "Missing required options."; display_help; exit 1;
 fi
+
 
 # Create project structure
 (
