@@ -22,15 +22,12 @@ internal sealed class InMemorySubscriptionConsumer : ISubscriptionConsumer
 
     public void Consume(IMessageSubscription messageSubscription, CancellationToken cancellationToken = default)
     {
-        System.Console.WriteLine("CONSUME");
         var type = messageSubscription.Type;
         var callback = messageSubscription.Callback;
         var routing = _messageRoutingFactory.Get(type);
 
         _messageListener.OnMessageReceived += async (messageEnvelope) =>
         {
-            System.Console.WriteLine("RECEIVED");
-
             var exchange = messageEnvelope.Exchange;
             var routingKey = messageEnvelope.RoutingKey;
             var payload = Encoding.UTF8.GetString(messageEnvelope.Body);
