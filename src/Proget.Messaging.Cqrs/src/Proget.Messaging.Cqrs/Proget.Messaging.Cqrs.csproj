@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <Version>0.0.0</Version>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>Proget.Messaging.Cqrs</AssemblyName>
+    <Title>Proget.Messaging.Cqrs</Title>
+    <Authors>Mikołaj Bochenek</Authors>
+    <Company>Progmat</Company>
+    <Description>Proget.Messaging.Cqrs</Description>
+    <PackageId>Proget.Messaging.Cqrs</PackageId>
+    <PackageTags>Proget.Messaging.Cqrs</PackageTags>
+    <PackageReleaseNotes>Proget.Messaging.Cqrs</PackageReleaseNotes>
+    <PackageProjectUrl>https://github.com/softwave-pl/proget/wiki</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/softwave-pl/proget</RepositoryUrl>
+    <PackageRepositoryType>git</PackageRepositoryType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../../Proget.Messaging/src/Proget.Messaging/Proget.Messaging.csproj" />
+    <ProjectReference Include="../../../Proget.Cqrs.Events/src/Proget.Cqrs.Events/Proget.Cqrs.Events.csproj" />
+  </ItemGroup>
+
+</Project>
