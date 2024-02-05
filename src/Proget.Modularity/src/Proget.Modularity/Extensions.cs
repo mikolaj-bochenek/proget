@@ -100,13 +100,15 @@ public static class Extensions
         {
             foreach (var settings in GetSettings("*", 2))
             {
-                cfg.AddJsonFile(settings);
+                cfg.AddJsonFile(settings, true, true);
             }
 
             foreach (var settings in GetSettings($"*.{ctx.HostingEnvironment.EnvironmentName}", 3))
             {
-                cfg.AddJsonFile(settings);
+                cfg.AddJsonFile(settings, true, true);
             }
+
+            cfg.AddEnvironmentVariables();
 
             IEnumerable<string> GetSettings(string pattern, int segments)
             {
