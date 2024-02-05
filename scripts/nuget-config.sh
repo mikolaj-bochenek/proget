@@ -9,7 +9,7 @@ display_help() {
 }
 
 while getopts u:p:h: option; do
-  case $option" in
+  case $option in
     u) username=${OPTARG};;
     p) pat=${OPTARG};;
     h) display_help; exit 0;;
