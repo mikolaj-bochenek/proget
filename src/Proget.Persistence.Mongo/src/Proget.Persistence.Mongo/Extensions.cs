@@ -12,6 +12,13 @@ public static class Extensions
         var client = new MongoClient(options.ConnectionString);
         services.AddSingleton(_ => client.GetDatabase(options.Database));
 
+        ConventionRegistry.Register("default", new ConventionPack
+        {
+            new CamelCaseElementNameConvention(),
+            new IgnoreExtraElementsConvention(true),
+            new EnumRepresentationConvention(BsonType.String),
+        }, _ => true);
+
         services.AddSingleton(typeof(IWriteRepository<>), typeof(WriteRepository<>));
 
         return persistenceOptionsBuilder;
