@@ -16,7 +16,7 @@ display_help() {
   echo "  -h    Show this help message"
 }
 
-while getopts s:p:d:n:c:h: option; do
+while getopts n:f:h: option; do
   case $option in
     n) name=$OPTARG;;
     f) framework=$OPTARG;;
