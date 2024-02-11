@@ -7,8 +7,8 @@ public static class Extensions
     {
         return subscriber.Subscribe<TEvent>(async (serviceProvider, @event) => {
             using var scope = serviceProvider.CreateScope();
-            await scope.ServiceProvider.GetRequiredService<IEventHandler<TEvent>>()
-                .HandleAsync(@event);
+            var handler = scope.ServiceProvider.GetRequiredService<IEventHandler<TEvent>>();
+            await handler.HandleAsync(@event);
         });
     }
 }

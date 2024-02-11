@@ -30,18 +30,23 @@ internal sealed class InMemorySubscriptionConsumer : ISubscriptionConsumer
         {
             var exchange = messageEnvelope.Exchange;
             var routingKey = messageEnvelope.RoutingKey;
+
+            var shouldProcess = exchange switch
+            {
+                ExchangeTypes.Fanout => true,
+                ExchangeTypes.Direct when routingKey.Equals(routing.RoutingKey) => true,
+                _ => false
+            };
+
+            if (!shouldProcess)
+            {
+                return;
+            }
+
             var payload = Encoding.UTF8.GetString(messageEnvelope.Body);
             var message = _serializer.Deserialize(payload, type)
                 ?? throw new InvalidOperationException("Deserialized message is null");
-
-            await (exchange switch
-            {
-                ExchangeTypes.Fanout
-                    => callback(_serviceProvider, message),
-                ExchangeTypes.Direct when routingKey.Equals(routing.RoutingKey)
-                    => callback(_serviceProvider, message),
-                _ => throw new InvalidOperationException("The type of exchange has to be one of these: ['direct', 'fanout']"),
-            });
+            await callback(_serviceProvider, message);
         };
     }
 }
