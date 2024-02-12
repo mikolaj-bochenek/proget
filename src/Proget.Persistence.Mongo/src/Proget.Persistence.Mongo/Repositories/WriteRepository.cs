@@ -6,7 +6,7 @@ internal sealed class WriteRepository<T> : IWriteRepository<T> where T : class
 
     public WriteRepository(IMongoDatabase database)
     {
-        _collection = database.GetCollection<T>(typeof(T).Name.Underscore().Pluralize());
+        _collection = database.GetCollection<T>(typeof(T).Name.Camelize().Pluralize());
     }
 
     public async Task AddAsync(T entity, CancellationToken cancellationToken = default)
