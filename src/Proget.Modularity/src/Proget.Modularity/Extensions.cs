@@ -2,6 +2,15 @@ namespace Proget.Modularity;
 
 public static class Extensions
 {
+    public static IApplicationBuilder RouteModularity(this IApplicationBuilder app)
+    {
+        var modules = app.ApplicationServices.GetRequiredService<List<IModule>>();
+
+        app.UseEndpoints(router => modules.ForEach(m => m.Expose(router)));
+        
+        return app;
+    }
+
     public static IApplicationBuilder UseModularity(this IApplicationBuilder app)
     {
         var modules = app.ApplicationServices.GetRequiredService<List<IModule>>();
