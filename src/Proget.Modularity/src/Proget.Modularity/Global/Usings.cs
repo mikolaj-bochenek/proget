@@ -14,6 +14,7 @@ global using Microsoft.AspNetCore.Mvc;
 global using Proget.Modularity.Controllers;
 global using Proget.Modularity.Options;
 global using Proget.Messaging.InMemory;
+global using Proget.Messaging.RabbitMq;
 global using Proget.Messaging;
 global using Proget.Cqrs.Events;
 global using Proget.Web;

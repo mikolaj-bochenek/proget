@@ -35,7 +35,10 @@ public static class Extensions
         {
             builder.Services
                 .AddEvents(assemblies)
-                .AddMessaging(opt => opt.AddInMemory());
+                .AddMessaging(opt => opt
+                    .AddInMemory()
+                    .AddRabbitMq()
+                );
         }
         
         modules.ForEach(m => m.Register(builder.Services));
