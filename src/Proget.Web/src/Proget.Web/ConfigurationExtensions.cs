@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.DataProtection;
+
 namespace Proget.Web;
 
 public static class ConfigurationExtensions
@@ -19,6 +21,13 @@ public static class ConfigurationExtensions
         where TModel : class, new()
     {
         return app.Configuration.GetOptions<TModel>(section);  
+    }
+
+    public static TModel GetOptions<TModel>(this IApplicationBuilder app, string? section = null)
+        where TModel : class, new()
+    {
+        var configuration = app.ApplicationServices.GetRequiredService<IConfiguration>();
+        return configuration.GetOptions<TModel>(section); 
     }
 
     public static TModel GetOptions<TModel>(this IConfiguration configuration, string? section = null)
