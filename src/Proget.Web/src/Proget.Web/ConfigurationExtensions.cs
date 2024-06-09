@@ -1,5 +1,3 @@
-using Microsoft.AspNetCore.DataProtection;
-
 namespace Proget.Web;
 
 public static class ConfigurationExtensions

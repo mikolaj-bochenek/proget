@@ -22,12 +22,13 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="8.0.0" />
 
     <PackageReference Include="Figgle" Version="0.5.1" />
     <PackageReference Include="FluentValidation" Version="11.4.0" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.2.2" />
+
+    <ProjectReference Include="../../../Proget.Di/src/Proget.Di/Proget.Di.csproj" />
   </ItemGroup>
 
 </Project>
