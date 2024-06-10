@@ -7,14 +7,14 @@
     <Version>0.0.0</Version>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <AssemblyName>Proget.Cqrs.Events</AssemblyName>
-    <Title>Proget.Cqrs.Events</Title>
+    <AssemblyName>Proget.Cqrs.Queries</AssemblyName>
+    <Title>Proget.Cqrs.Queries</Title>
     <Authors>Mikołaj Bochenek</Authors>
     <Company>Progmat</Company>
-    <Description>Proget.Cqrs.Events</Description>
-    <PackageId>Proget.Cqrs.Events</PackageId>
-    <PackageTags>Proget.Cqrs.Events</PackageTags>
-    <PackageReleaseNotes>Proget.Cqrs.Events</PackageReleaseNotes>
+    <Description>Proget.Cqrs.Queries</Description>
+    <PackageId>Proget.Cqrs.Queries</PackageId>
+    <PackageTags>Proget.Cqrs.Queries</PackageTags>
+    <PackageReleaseNotes>Proget.Cqrs.Queries</PackageReleaseNotes>
     <PackageProjectUrl>https://github.com/softwave-pl/proget/wiki</PackageProjectUrl>
     <RepositoryUrl>https://github.com/softwave-pl/proget</RepositoryUrl>
     <PackageRepositoryType>git</PackageRepositoryType>
