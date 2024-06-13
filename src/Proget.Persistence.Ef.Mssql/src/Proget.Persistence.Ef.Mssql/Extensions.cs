@@ -12,8 +12,7 @@ public static class Extensions
         services.AddValidateOptions<MssqlOptions>(section);
 
         services.AddDbContext<TContext>(
-            ctx => ctx.UseSqlServer(options.ConnectionString,
-            opt => opt.MigrationsAssembly(options.MigrationsOutput)));
+            ctx => ctx.UseSqlServer(options.ConnectionString));
 
         return persistenceOptionsBuilder;
     }

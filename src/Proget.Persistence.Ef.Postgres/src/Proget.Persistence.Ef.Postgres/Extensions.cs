@@ -12,8 +12,7 @@ public static class Extensions
         services.AddValidateOptions<PostgresOptions>(section);
 
         services.AddDbContext<TContext>(
-            ctx => ctx.UseNpgsql(options.ConnectionString,
-            opt => opt.MigrationsAssembly(options.MigrationsOutput)));
+            ctx => ctx.UseNpgsql(options.ConnectionString));
 
         return persistenceOptionsBuilder;
     }
