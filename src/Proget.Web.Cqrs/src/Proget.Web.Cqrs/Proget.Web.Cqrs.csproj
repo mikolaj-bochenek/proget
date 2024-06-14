@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <Version>0.0.0</Version>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>Proget.Web.Cqrs</AssemblyName>
+    <Title>Proget.Web.Cqrs</Title>
+    <Authors>Mikołaj Bochenek</Authors>
+    <Company>Progmat</Company>
+    <Description>Proget.Web.Cqrs</Description>
+    <PackageId>Proget.Web.Cqrs</PackageId>
+    <PackageTags>Proget.Web.Cqrs</PackageTags>
+    <PackageReleaseNotes>Proget.Web.Cqrs</PackageReleaseNotes>
+    <PackageProjectUrl>https://github.com/softwave-pl/proget/wiki</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/softwave-pl/proget</RepositoryUrl>
+    <PackageRepositoryType>git</PackageRepositoryType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../../Proget.Web/src/Proget.Web/Proget.Web.csproj" />
+    <ProjectReference Include="../../../Proget.Cqrs.Commands/src/Proget.Cqrs.Commands/Proget.Cqrs.Commands.csproj" />
+  </ItemGroup>
+
+</Project>
