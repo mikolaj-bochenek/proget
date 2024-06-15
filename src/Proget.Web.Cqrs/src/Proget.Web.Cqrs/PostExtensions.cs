@@ -1,6 +1,6 @@
 namespace Proget.Web.Cqrs;
 
-public static class EndpointRouteBuilderExtensions
+public static class PostExtensions
 {
     public static IEndpointRouteBuilder MapPostCqrs<TCommand, TResponse>(
         this IEndpointRouteBuilder builder,
@@ -11,7 +11,7 @@ public static class EndpointRouteBuilderExtensions
         where TCommand : class, ICommand
         where TResponse : class
     {
-        var routeHandlerBuilder = builder.MapPost(route, async (TCommand command, IValidator<TCommand> validator, ICommandDispatcher commandDispatcher, CancellationToken cancellationToken) =>
+        var routeHandlerBuilder = builder.MapPost(route, async (TCommand command, IValidator<TCommand> validator, ICommandDispatcher dispatcher, CancellationToken cancellationToken) =>
         {
             command = preprocess(command);
 
@@ -21,7 +21,7 @@ public static class EndpointRouteBuilderExtensions
                 return Results.BadRequest(validationResult.Errors);
             }
             
-            await commandDispatcher.SendAsync(command, cancellationToken);
+            await dispatcher.SendAsync(command, cancellationToken);
             
             var response = postprocess(command);
             return Results.Ok(response);

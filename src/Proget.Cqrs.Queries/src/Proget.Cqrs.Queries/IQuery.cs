@@ -1,6 +1,6 @@
 namespace Proget.Cqrs.Queries;
 
-// // Marker
+// Marker
 public interface IQuery
 {
 }

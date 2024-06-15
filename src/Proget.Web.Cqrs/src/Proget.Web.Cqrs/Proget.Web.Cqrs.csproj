@@ -23,6 +23,7 @@
   <ItemGroup>
     <ProjectReference Include="../../../Proget.Web/src/Proget.Web/Proget.Web.csproj" />
     <ProjectReference Include="../../../Proget.Cqrs.Commands/src/Proget.Cqrs.Commands/Proget.Cqrs.Commands.csproj" />
+    <ProjectReference Include="../../../Proget.Cqrs.Queries/src/Proget.Cqrs.Queries/Proget.Cqrs.Queries.csproj" />
   </ItemGroup>
 
 </Project>
