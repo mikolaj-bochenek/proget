@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <Version>0.0.0</Version>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>Proget.Ddd</AssemblyName>
+    <Title>Proget.Ddd</Title>
+    <Authors>Mikołaj Bochenek</Authors>
+    <Company>Progmat</Company>
+    <Description>Proget.Ddd</Description>
+    <PackageId>Proget.Ddd</PackageId>
+    <PackageTags>Proget.Ddd</PackageTags>
+    <PackageReleaseNotes>Proget.Ddd</PackageReleaseNotes>
+    <PackageProjectUrl>https://github.com/softwave-pl/proget/wiki</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/softwave-pl/proget</RepositoryUrl>
+    <PackageRepositoryType>git</PackageRepositoryType>
+  </PropertyGroup>
+
+  <ItemGroup>
+  
+  </ItemGroup>
+
+</Project>
