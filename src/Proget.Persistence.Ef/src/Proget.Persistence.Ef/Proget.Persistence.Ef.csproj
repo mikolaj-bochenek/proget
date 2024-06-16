@@ -25,7 +25,6 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.0" />
 
-    <ProjectReference Include="../../../Proget.Persistence/src/Proget.Persistence/Proget.Persistence.csproj" />
     <ProjectReference Include="../../../Proget.Web/src/Proget.Web/Proget.Web.csproj" />
   </ItemGroup>
 

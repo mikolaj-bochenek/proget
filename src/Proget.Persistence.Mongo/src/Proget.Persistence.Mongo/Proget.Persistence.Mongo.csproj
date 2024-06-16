@@ -21,7 +21,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../../Proget.Persistence/src/Proget.Persistence/Proget.Persistence.csproj" />
     <ProjectReference Include="../../../Proget.Web/src/Proget.Web/Proget.Web.csproj" />
 
     <PackageReference Include="MongoDB.Driver" Version="2.23.1" />

@@ -2,10 +2,9 @@ namespace Proget.Persistence.Mongo;
 
 public static class Extensions
 {
-    public static IPersistenceOptionsBuilder AddMongo(this IPersistenceOptionsBuilder persistenceOptionsBuilder,
-        string? section = "persistence:mongo")
+    public static IServiceCollection AddMongo(this IServiceCollection services,
+        string? section = "mongo")
     {
-        var services = persistenceOptionsBuilder.Services;
         services.AddValidateOptions<MongoOptions>(section);
 
         var options = services.GetOptions<MongoOptions>(section);
@@ -19,8 +18,8 @@ public static class Extensions
             new EnumRepresentationConvention(BsonType.String),
         }, _ => true);
 
-        services.AddSingleton(typeof(IWriteRepository<>), typeof(WriteRepository<>));
+        services.AddSingleton(typeof(IMongoWriteRepository<>), typeof(MongoWriteRepository<>));
 
-        return persistenceOptionsBuilder;
+        return services;
     }
 }
