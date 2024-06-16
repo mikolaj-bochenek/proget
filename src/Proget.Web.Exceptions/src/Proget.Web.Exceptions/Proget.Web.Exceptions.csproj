@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <Version>0.0.0</Version>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>Proget.Web.Exceptions</AssemblyName>
+    <Title>Proget.Web.Exceptions</Title>
+    <Authors>Mikołaj Bochenek</Authors>
+    <Company>Progmat</Company>
+    <Description>Proget.Web.Exceptions</Description>
+    <PackageId>Proget.Web.Exceptions</PackageId>
+    <PackageTags>Proget.Web.Exceptions</PackageTags>
+    <PackageReleaseNotes>Proget.Web.Exceptions</PackageReleaseNotes>
+    <PackageProjectUrl>https://github.com/softwave-pl/proget/wiki</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/softwave-pl/proget</RepositoryUrl>
+    <PackageRepositoryType>git</PackageRepositoryType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../../Proget.Web/src/Proget.Web/Proget.Web.csproj" />
+    <ProjectReference Include="../../../Proget.Exceptions/src/Proget.Exceptions/Proget.Exceptions.csproj" />
+  </ItemGroup>
+
+</Project>
