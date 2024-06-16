@@ -11,4 +11,14 @@ public static class Extensions
             await handler.HandleAsync(@event);
         });
     }
+
+    public static IMessageSubscriber SubscribeCommand<TCommand>(this IMessageSubscriber subscriber)
+        where TCommand : class, IMessage, ICommand
+    {
+        return subscriber.Subscribe<TCommand>(async (serviceProvider, command) => {
+            using var scope = serviceProvider.CreateScope();
+            var handler = scope.ServiceProvider.GetRequiredService<ICommandHandler<TCommand>>();
+            await handler.HandleAsync(command);
+        });
+    }
 }

@@ -23,6 +23,7 @@
   <ItemGroup>
     <ProjectReference Include="../../../Proget.Messaging/src/Proget.Messaging/Proget.Messaging.csproj" />
     <ProjectReference Include="../../../Proget.Cqrs.Events/src/Proget.Cqrs.Events/Proget.Cqrs.Events.csproj" />
+    <ProjectReference Include="../../../Proget.Cqrs.Commands/src/Proget.Cqrs.Commands/Proget.Cqrs.Commands.csproj" />
   </ItemGroup>
 
 </Project>
