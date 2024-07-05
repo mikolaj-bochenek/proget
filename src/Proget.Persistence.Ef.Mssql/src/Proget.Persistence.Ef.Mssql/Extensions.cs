@@ -12,7 +12,7 @@ public static class Extensions
 
         services.AddValidateOptions<MssqlOptions>(section);
         services.AddDbContext<TContext>(
-            ctx => ctx.UseSqlServer(options.ConnectionString));
+            ctx => ctx.UseSqlServer(options.ConnectionString, x => x.MigrationsHistoryTable("__EFMigrationsHistory", options.MigrationsHistorySchema)));
         
         if (options.MigrationsEnabled)
         {

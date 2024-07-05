@@ -7,4 +7,7 @@ public abstract class EfOptions
 
     [Required(ErrorMessage = $"{nameof(MigrationsEnabled)} option is required.")]
     public bool MigrationsEnabled { get; set; }
+
+    [Required(ErrorMessage = $"{nameof(MigrationsHistorySchema)} option is required.")]
+    public string MigrationsHistorySchema { get; set; } = string.Empty;
 }

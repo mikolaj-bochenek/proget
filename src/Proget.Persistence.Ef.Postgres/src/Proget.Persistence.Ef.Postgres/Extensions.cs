@@ -12,7 +12,7 @@ public static class Extensions
         
         services.AddValidateOptions<PostgresOptions>(section);
         services.AddDbContext<TContext>(
-            ctx => ctx.UseNpgsql(options.ConnectionString));
+            ctx => ctx.UseNpgsql(options.ConnectionString, x => x.MigrationsHistoryTable("__EFMigrationsHistory", options.MigrationsHistorySchema)));
         
         if (options.MigrationsEnabled)
         {
