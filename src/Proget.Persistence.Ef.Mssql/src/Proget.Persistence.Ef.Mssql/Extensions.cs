@@ -2,20 +2,24 @@ namespace Proget.Persistence.Ef.Mssql;
 
 public static class Extensions
 {
-    public static IEfOptionsBuilder AddMssql<TContext>(
-        this IEfOptionsBuilder efOptionsBuilder,
+    public static IEfOptionsConfigurator AddMssql<TContext>(
+        this IEfOptionsConfigurator efOptionsConfigurator,
         string? section = "ef:postgres")
         where TContext : DbContext, IDbContext
     {
-        var services = efOptionsBuilder.Services;
+        var services = efOptionsConfigurator.Services;
         var options = services.GetOptions<MssqlOptions>(section);
 
         services.AddValidateOptions<MssqlOptions>(section);
         services.AddDbContext<TContext>(
             ctx => ctx.UseSqlServer(options.ConnectionString));
         
-        services.AddScoped<IDbContext, TContext>();
+        if (options.MigrationsEnabled)
+        {
+            var context = services.BuildServiceProvider().GetRequiredService<TContext>();
+            context.Database.Migrate();
+        }
 
-        return efOptionsBuilder;
+        return efOptionsConfigurator;
     }
 }
