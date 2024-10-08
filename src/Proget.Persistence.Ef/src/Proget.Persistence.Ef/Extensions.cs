@@ -11,28 +11,48 @@ public static class Extensions
     }
 
     public static void ToKebabCaseTables(this ModelBuilder modelBuilder)
+        => ToCaseTables(modelBuilder, x => x.Kebaberize());
+
+    public static void ToSnakeCaseTables(this ModelBuilder modelBuilder)
+        => ToCaseTables(modelBuilder, x => x.Underscore());
+
+
+    private static void ToCaseTables(ModelBuilder modelBuilder, Func<string, string> convertCase)
     {
         foreach (var entity in modelBuilder.Model.GetEntityTypes())
         {
-            var name = entity.GetTableName() ?? string.Empty;
-            var kebabCaseName = name.Kebaberize().ToLower();
-            entity.SetTableName(kebabCaseName);
+            var tableName = entity.GetTableName() ?? string.Empty;
+            var convertedTableName = convertCase(tableName);
+            entity.SetTableName(convertedTableName);
 
-            var tableObjectIdentifier = StoreObjectIdentifier.Table(kebabCaseName, entity.GetSchema());
+            var tableObjectIdentifier = StoreObjectIdentifier.Table(convertedTableName, entity.GetSchema());
 
             foreach (var property in entity.GetProperties())
             {
-                property.SetColumnName(property.GetColumnName(tableObjectIdentifier)?.Kebaberize().ToLower());
+                var columnName = property.GetColumnName(tableObjectIdentifier) ?? string.Empty;
+                var convertedColumnName = convertCase(columnName);
+                property.SetColumnName(convertedColumnName);
             }
 
             foreach (var key in entity.GetKeys())
             {
-                key.SetName(key.GetName()?.Kebaberize().ToLower());
+                var keyName = key.GetName() ?? string.Empty;
+                var convertedKeyName = convertCase(keyName);
+                key.SetName(convertedKeyName);
             }
 
-            foreach (var key in entity.GetForeignKeys())
+            foreach (var foreignKey in entity.GetForeignKeys())
             {
-                key.SetConstraintName(key.GetConstraintName()?.Kebaberize().ToLower());
+                var constraintName = foreignKey.GetConstraintName() ?? string.Empty;
+                var convertedConstraintName = convertCase(constraintName);
+                foreignKey.SetConstraintName(convertedConstraintName);
+            }
+
+            foreach (var index in entity.GetIndexes())
+            {
+                var indexName = index.GetDatabaseName() ?? string.Empty;
+                var convertedIndexName = convertCase(indexName);
+                index.SetDatabaseName(convertedIndexName);
             }
         }
     }
