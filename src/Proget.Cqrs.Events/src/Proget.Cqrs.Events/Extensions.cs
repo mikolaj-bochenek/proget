@@ -2,6 +2,11 @@ namespace Proget.Cqrs.Events;
 
 public static class Extensions
 {
+    public static IServiceCollection AddEvents(this IServiceCollection services)
+    {
+        return services.AddEvents(AppDomain.CurrentDomain.GetAssemblies());
+    }
+
     public static IServiceCollection AddEvents(this IServiceCollection services, IEnumerable<Assembly> assemblies)
     {
         return services.AddEvents(assemblies.ToArray());
