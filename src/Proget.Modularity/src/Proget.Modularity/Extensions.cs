@@ -5,14 +5,16 @@ public static class Extensions
     public static IApplicationBuilder UseModularity(this IApplicationBuilder app)
     {
         var modules = app.ApplicationServices.GetRequiredService<List<IModule>>();
-       
+
         modules.ForEach(m => m.Use(app));
         app.UseRouting();
         app.UseEndpoints(router => modules.ForEach(m => m.Expose(router)));
         return app;
     }
 
-    public static WebApplicationBuilder AddModularity(this WebApplicationBuilder builder, string? section = "modularity")
+    public static WebApplicationBuilder AddModularity(this WebApplicationBuilder builder,
+        string? section = "modularity",
+        Action<IServiceCollection>? configureServices = null)
     {
         builder.Services.AddValidateOptions<ModularityOptions>(section);
         var options = builder.Services.GetOptions<ModularityOptions>(section);
@@ -21,7 +23,7 @@ public static class Extensions
         {
             return builder;
         }
-        
+
         var assemblies = builder.LoadAssemblies(options.ModulePrefix);
         var modules = builder.LoadModules(assemblies);
 
@@ -33,16 +35,8 @@ public static class Extensions
             WriteLine("Enabled modules: {0}", string.Join(", ", modules.Select(m => m.Name)));
         }
 
-        if (options.FrameworkEnabled)
-        {
-            builder.Services
-                .AddEvents(assemblies)
-                .AddMessaging(opt => opt
-                    .AddInMemory()
-                    .AddRabbitMq()
-                );
-        }
-        
+        configureServices?.Invoke(builder.Services);
+
         modules.ForEach(m => m.Register(builder.Services));
 
         return builder;
@@ -51,7 +45,7 @@ public static class Extensions
     public static List<Assembly> LoadAssemblies(this WebApplicationBuilder builder, string modulePrefix)
     {
         builder.Host.ConfigureModules();
-        
+
         var assemblies = AppDomain.CurrentDomain.GetAssemblies().ToList();
         var locations = assemblies.Where(x => !x.IsDynamic).Select(x => x.Location).ToArray();
         var files = Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory, "*.dll")
@@ -78,7 +72,7 @@ public static class Extensions
         {
             files.Remove(disabledModule);
         }
-            
+
         files.ForEach(x => assemblies.Add(AppDomain.CurrentDomain.Load(AssemblyName.GetAssemblyName(x))));
 
         builder.Services.AddModuleControllers(disabledModules);
@@ -95,7 +89,7 @@ public static class Extensions
             .Select(Activator.CreateInstance)
             .Cast<IModule>()
             .ToList();
-        
+
         return modules;
     }
 
@@ -119,7 +113,7 @@ public static class Extensions
             {
                 var files = Directory.EnumerateFiles(ctx.HostingEnvironment.ContentRootPath,
                     $"module.{pattern}.json", SearchOption.AllDirectories);
-                
+
                 return files.Where(file =>
                 {
                     var fileName = Path.GetFileNameWithoutExtension(file);
@@ -141,7 +135,7 @@ public static class Extensions
             {
                 manager.ApplicationParts.Remove(part);
             }
-                    
+
             manager.FeatureProviders.Add(new CustomControllerFeatureProvider());
         });
     }
