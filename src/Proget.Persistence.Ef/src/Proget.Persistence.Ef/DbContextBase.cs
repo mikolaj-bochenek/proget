@@ -82,6 +82,27 @@ public abstract class DbContextBase : DbContext, IDbContext
         });
     }
 
+    public Task ExecuteTransactionalAsync(Func<Task> operation, CancellationToken cancellationToken = default)
+    {
+        var strategy = CreateExecutionStrategy();
+        return strategy.ExecuteAsync(async () =>
+        {
+            await using var transaction =
+                await Database.BeginTransactionAsync(IsolationLevel.ReadCommitted, cancellationToken);
+            try
+            {
+                await operation();
+                await SaveChangesAsync(cancellationToken);
+                await transaction.CommitAsync(cancellationToken);
+            }
+            catch
+            {
+                await transaction.RollbackAsync(cancellationToken);
+                throw;
+            }
+        });
+    }
+
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
         try
