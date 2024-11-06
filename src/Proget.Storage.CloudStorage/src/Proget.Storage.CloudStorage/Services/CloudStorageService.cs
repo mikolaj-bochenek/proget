@@ -19,4 +19,15 @@ internal sealed class CloudStorageService : IStorageServiceStrategy
 
         await _storageClient.UploadObjectAsync(_options.Bucket, formFile.FileName, formFile.ContentType, fileStream);
     }
+
+    public async Task<Stream> DownloadAsync(string fileName, CancellationToken cancellationToken = default)
+    {
+        var memoryStream = new MemoryStream();
+
+        await _storageClient.DownloadObjectAsync(_options.Bucket, fileName, memoryStream, null, cancellationToken);
+
+        memoryStream.Position = 0;
+        
+        return memoryStream;
+    }
 }
