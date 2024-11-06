@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <Version>0.0.0</Version>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>Proget.Storage.CloudStorage</AssemblyName>
+    <Title>Proget.Storage.CloudStorage</Title>
+    <Authors>Mikołaj Bochenek</Authors>
+    <Company>Progmat</Company>
+    <Description>Proget.Storage.CloudStorage</Description>
+    <PackageId>Proget.Storage.CloudStorage</PackageId>
+    <PackageTags>Proget.Storage.CloudStorage</PackageTags>
+    <PackageReleaseNotes>Proget.Storage.CloudStorage</PackageReleaseNotes>
+    <PackageProjectUrl>https://github.com/softwave-pl/proget/wiki</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/softwave-pl/proget</RepositoryUrl>
+    <PackageRepositoryType>git</PackageRepositoryType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Google.Cloud.Storage.V1" Version="4.10.0" />
+
+    <ProjectReference Include="../../../Proget.Storage/src/Proget.Storage/Proget.Storage.csproj" />
+    <ProjectReference Include="../../../Proget.Web/src/Proget.Web/Proget.Web.csproj" />
+  </ItemGroup>
+
+</Project>
