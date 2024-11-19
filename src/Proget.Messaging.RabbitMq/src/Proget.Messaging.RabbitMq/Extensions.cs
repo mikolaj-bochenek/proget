@@ -20,6 +20,7 @@ public static class Extensions
         services.AddSingleton(connection);
         
         services.AddSingleton<ISubscriptionConsumer, RabbitMqSubscriptionConsumer>();
+        services.AddSingleton<IMessagePublisherStrategy, RabbitMqMessagePublisher>();
 
         return messagingOptionsBuilder;
     }
