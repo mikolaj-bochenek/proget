@@ -6,6 +6,7 @@ internal sealed class RabbitMqSubscriptionConsumer : ISubscriptionConsumer
     private readonly IRabbitMqRoutingFactory _rabbitMqRoutingFactory;
     private readonly ISerializer _serializer;
     private readonly IServiceProvider _serviceProvider;
+    private readonly RabbitMqOptions _options;
     private readonly ILogger<RabbitMqSubscriptionConsumer> _logger;
 
     public RabbitMqSubscriptionConsumer(
@@ -13,6 +14,7 @@ internal sealed class RabbitMqSubscriptionConsumer : ISubscriptionConsumer
         IRabbitMqRoutingFactory rabbitMqRoutingFactory,
         ISerializer serializer,
         IServiceProvider serviceProvider,
+        IOptions<RabbitMqOptions> options,
         ILogger<RabbitMqSubscriptionConsumer> logger
     )
     {
@@ -20,6 +22,7 @@ internal sealed class RabbitMqSubscriptionConsumer : ISubscriptionConsumer
         _rabbitMqRoutingFactory = rabbitMqRoutingFactory;
         _serializer = serializer;
         _serviceProvider = serviceProvider;
+        _options = options.Value;
         _logger = logger;
     }
 
@@ -32,39 +35,18 @@ internal sealed class RabbitMqSubscriptionConsumer : ISubscriptionConsumer
         var exchange = routing.Exchange;
         var routingKey = routing.RoutingKey;
         var queue = routing.Queue;
+        var multipleAck = _options.Queue?.MultipleAck ?? false;
+        var multipleNack = _options.Queue?.MultipleNack ?? false;
+        var requeueRejected = _options.Queue?.RequeueRejected ?? false;
+        var autoAck = _options.Queue?.AutoAck ?? false;
 
-        var declare = true;
-        var durable = true; 
-        var exclusive = false;
-        var autoDelete = false;
-        uint prefetchSize = 0;
-        ushort prefetchCount = 0;
-        var global = false;
-        var autoAck = false;
-        var multipleAck = true;
-        var multipleNack = false;
-        var requeueRejected = false;
-
-        if (declare)
+        if (_options.Queue?.Declare is true)
         {
-            _channel.QueueDeclare(queue, durable, exclusive, autoDelete);
-
-            var logInfoMsg = string.Join(
-                Environment.NewLine,
-                "The Queue has been declared:",
-                string.Format("name: '{0}'", queue),
-                string.Format("routing-key: '{0}'", routingKey),
-                string.Format("exchange: '{0}'", exchange),
-                string.Format("durable: '{0}'", durable),
-                string.Format("exclusive: '{0}'", exclusive),
-                string.Format("autoDelete: '{0}'", autoDelete),
-                string.Format("declaredBy: '{0}'", "Subscriber")
-            );
-            _logger.LogInformation("{Message}", logInfoMsg);
+            _options.Queue.Name = queue;
+            _options.Queue.BindExchange = exchange;
+            _options.Queue.BindRoutingKey = routingKey;
+            RabbitMqQueue.DeclareQueue(_channel, _options.Queue, _logger);
         }
-
-        _channel.QueueBind(queue, exchange, routingKey);
-        _channel.BasicQos(prefetchSize, prefetchCount, global);
 
         var consumer = new EventingBasicConsumer(_channel);
         consumer.Received += async (model, eventArgs) =>
@@ -73,22 +55,12 @@ internal sealed class RabbitMqSubscriptionConsumer : ISubscriptionConsumer
             {
                 var messageId = eventArgs.BasicProperties.MessageId;
                 var correlationId = eventArgs.BasicProperties.CorrelationId;
+                var deliveryTag = eventArgs.DeliveryTag;
                 var timestamp = eventArgs.BasicProperties.Timestamp.UnixTime;
                 var payload = Encoding.UTF8.GetString(eventArgs.Body.Span);
                 var message = _serializer.Deserialize(payload, type);
-
-                var logInfoMsg = string.Join(
-                    Environment.NewLine,
-                    "The Message has been received:",
-                    string.Format("messageId: '{0}'", messageId),
-                    string.Format("correlationId: '{0}'", correlationId),
-                    string.Format("timestamp: '{0}'", timestamp),
-                    string.Format("queue: '{0}'", queue),
-                    string.Format("routingKey: '{0}'", routingKey),
-                    string.Format("exchange: '{0}'", exchange),
-                    string.Format("payload: '{0}'", payload),
-                    string.Format("receivedBy: '{0}'", "Subscriber")
-                );
+               
+                var logInfoMsg = string.Format("Message: {0} with delivery-tag: {1} received from {2}", messageId, deliveryTag,  eventArgs.Exchange);
                 _logger.LogInformation("{Message}", logInfoMsg);
 
                 if (message is not null)

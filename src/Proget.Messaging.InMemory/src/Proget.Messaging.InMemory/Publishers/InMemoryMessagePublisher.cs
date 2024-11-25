@@ -2,17 +2,17 @@ namespace Proget.Messaging.InMemory.Publishers;
 
 internal sealed class InMemoryMessagePublisher : IMessagePublisherStrategy
 {
-    private readonly IMessageRoutingFactory _messageRoutingFactory;
+    private readonly IInMemoryRoutingFactory _routingFactory;
     private readonly IMessageChannel _messageChannel;
     private readonly ISerializer _serializer;
 
     public InMemoryMessagePublisher(
-        IMessageRoutingFactory messageRoutingFactory,
+        IInMemoryRoutingFactory routingFactory,
         IMessageChannel messageChannel,
         ISerializer serializer
     )
     {
-        _messageRoutingFactory = messageRoutingFactory;
+        _routingFactory = routingFactory;
         _messageChannel = messageChannel;
         _serializer = serializer;
     }
@@ -21,10 +21,10 @@ internal sealed class InMemoryMessagePublisher : IMessagePublisherStrategy
         TMessage message, CancellationToken cancellationToken = default
     ) where TMessage : class, IMessage
     {
-        var routing = _messageRoutingFactory.Get<TMessage>();
+        var routing = _routingFactory.Get<TMessage>();
         var payload = _serializer.Serialize(message);
         var body = Encoding.UTF8.GetBytes(payload);
-        var messageEnvelope = new MessageEnvelope(routing.Exchange, routing.RoutingKey, body);
+        var messageEnvelope = new MessageEnvelope(routing.ExchangeType, routing.RoutingKey, body);
 
         await _messageChannel.Writer.WriteAsync(messageEnvelope, cancellationToken);
     }

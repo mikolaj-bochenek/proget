@@ -2,13 +2,13 @@ namespace Proget.Messaging.InMemory.Subscribers;
 
 internal sealed class InMemorySubscriptionConsumer : ISubscriptionConsumer
 {
-    private readonly IMessageRoutingFactory _messageRoutingFactory;
+    private readonly IInMemoryRoutingFactory _messageRoutingFactory;
     private readonly IMessageListener _messageListener;
     private readonly ISerializer _serializer;
     private readonly IServiceProvider _serviceProvider;
 
     public InMemorySubscriptionConsumer(
-        IMessageRoutingFactory messageRoutingFactory,
+        IInMemoryRoutingFactory messageRoutingFactory,
         IMessageListener messageListener,
         ISerializer serializer,
         IServiceProvider serviceProvider
@@ -28,13 +28,13 @@ internal sealed class InMemorySubscriptionConsumer : ISubscriptionConsumer
 
         _messageListener.OnMessageReceived += async (messageEnvelope) =>
         {
-            var exchange = messageEnvelope.Exchange;
+            var exchangeType = messageEnvelope.ExchangeType;
             var routingKey = messageEnvelope.RoutingKey;
 
-            var shouldProcess = exchange switch
+            var shouldProcess = exchangeType switch
             {
-                ExchangeTypes.Fanout => true,
-                ExchangeTypes.Direct when routingKey.Equals(routing.RoutingKey) => true,
+                InMemoryExchangeType.Fanout => true,
+                InMemoryExchangeType.Direct when routingKey.Equals(routing.RoutingKey) => true,
                 _ => false
             };
 

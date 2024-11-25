@@ -1,7 +1,7 @@
 namespace Proget.Messaging.InMemory;
 
 internal sealed record MessageEnvelope(
-    ExchangeTypes Exchange,
+    InMemoryExchangeType ExchangeType,
     string RoutingKey,
     byte[] Body
 );

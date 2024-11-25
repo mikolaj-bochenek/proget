@@ -1,7 +1,7 @@
 namespace Proget.Messaging.InMemory.Routing;
 
-internal sealed record MessageRouting(
+internal sealed record InMemoryRouting(
     Type Type,
-    ExchangeTypes Exchange,
+    InMemoryExchangeType ExchangeType,
     string RoutingKey
 );

@@ -8,8 +8,8 @@ public static class Extensions
         var services = messagingOptionsBuilder.Services;
         services.AddValidateOptions<InMemoryOptions>();
 
-        services.AddSingleton<IMessageRoutingBuilder, MessageRoutingBuilder>();
-        services.AddSingleton<IMessageRoutingFactory, MessageRoutingFactory>();
+        services.AddSingleton<IInMemoryRoutingBuilder, InMemoryRoutingBuilder>();
+        services.AddSingleton<IInMemoryRoutingFactory, InMemoryRoutingFactory>();
 
         services.AddSingleton<IMessageChannel, MessageChannel>();
         services.AddSingleton<IMessageListener, MessageListener>();

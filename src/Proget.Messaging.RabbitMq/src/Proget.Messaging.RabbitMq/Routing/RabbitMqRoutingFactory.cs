@@ -14,7 +14,6 @@ internal sealed class RabbitMqRoutingFactory : IRabbitMqRoutingFactory
 
     public RabbitMqRouting Get(Type type)
         => _builder
-            .SetExchangeType(type)
             .SetExchange(type)
             .SetRoutingKey(type)
             .SetQueue(type)
