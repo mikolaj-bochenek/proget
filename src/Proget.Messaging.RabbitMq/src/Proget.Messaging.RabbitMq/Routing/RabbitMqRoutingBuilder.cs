@@ -19,25 +19,25 @@ internal sealed class RabbitMqRoutingBuilder : IRabbitMqRoutingBuilder
         _rabbitMqRoutingOptions = new RabbitMqRoutingOptions();
     }
 
-    public IRabbitMqRoutingBuilder SetExchange(Type type)
+    public IRabbitMqRoutingBuilder SetExchange(RabbitMqRoutingAttribute attribute, Type type)
     {
-        _rabbitMqRoutingOptions.Exchange = (GetAttribute(type)?.Exchange ?? _options.Exchange?.Name ?? type.Assembly.FullName)
+        _rabbitMqRoutingOptions.Exchange = (attribute.Exchange ?? _options.Exchange?.Name ?? type.Assembly.FullName)
             .Underscore();
 
         return this;
     }
 
-    public IRabbitMqRoutingBuilder SetRoutingKey(Type type)
+    public IRabbitMqRoutingBuilder SetRoutingKey(RabbitMqRoutingAttribute attribute, Type type)
     {
-        _rabbitMqRoutingOptions.RoutingKey = (GetAttribute(type)?.RoutingKey ?? type.Name)
+        _rabbitMqRoutingOptions.RoutingKey = (attribute.RoutingKey ?? type.Name)
             .Underscore();
         
         return this;
     }
 
-    public IRabbitMqRoutingBuilder SetQueue(Type type)
+    public IRabbitMqRoutingBuilder SetQueue(RabbitMqRoutingAttribute attribute, Type type)
     {
-        _rabbitMqRoutingOptions.Queue = (GetAttribute(type)?.Queue ?? _options.Queue?.Name ?? $"{type.Assembly.FullName}.{type.Name}")
+        _rabbitMqRoutingOptions.Queue = (attribute.Queue ?? _options.Queue?.Name ?? $"{type.Assembly.FullName}.{type.Name}")
             .Underscore();
         
         return this;
@@ -56,7 +56,4 @@ internal sealed class RabbitMqRoutingBuilder : IRabbitMqRoutingBuilder
         
         return new RabbitMqRouting(type, exchange, routingKey, queue);
     }
-        
-    private static RabbitMqRoutingAttribute? GetAttribute(MemberInfo type)
-        => type.GetCustomAttribute<RabbitMqRoutingAttribute>();
 }

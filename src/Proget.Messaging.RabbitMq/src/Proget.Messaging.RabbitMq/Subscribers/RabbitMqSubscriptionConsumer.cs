@@ -32,6 +32,11 @@ internal sealed class RabbitMqSubscriptionConsumer : ISubscriptionConsumer
         var callback = messageSubscription.Callback;
 
         var routing = _rabbitMqRoutingFactory.Get(type);
+        if (routing is null)
+        {
+            return;
+        }
+        
         var exchange = routing.Exchange;
         var routingKey = routing.RoutingKey;
         var queue = routing.Queue;

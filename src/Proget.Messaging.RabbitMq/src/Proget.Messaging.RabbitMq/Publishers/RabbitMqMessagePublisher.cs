@@ -38,6 +38,11 @@ internal sealed class RabbitMqMessagePublisher : IMessagePublisherStrategy
     {
         var type = message.GetType();
         var routing = _rabbitMqRoutingFactory.Get(type);
+        if (routing is null)
+        {
+            return;
+        }
+        
         var exchange = routing.Exchange;
         var routingKey = routing.RoutingKey;
 

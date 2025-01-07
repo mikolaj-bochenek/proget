@@ -2,8 +2,8 @@ namespace Proget.Messaging.RabbitMq.Routing;
 
 internal interface IRabbitMqRoutingBuilder
 {
-    IRabbitMqRoutingBuilder SetExchange(Type type);
-    IRabbitMqRoutingBuilder SetRoutingKey(Type type);
-    IRabbitMqRoutingBuilder SetQueue(Type type);
+    IRabbitMqRoutingBuilder SetExchange(RabbitMqRoutingAttribute attribute, Type type);
+    IRabbitMqRoutingBuilder SetRoutingKey(RabbitMqRoutingAttribute attribute, Type type);
+    IRabbitMqRoutingBuilder SetQueue(RabbitMqRoutingAttribute attribute, Type type);
     RabbitMqRouting Build(Type type);
 }

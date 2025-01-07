@@ -2,7 +2,7 @@ namespace Proget.Messaging.InMemory.Routing;
 
 internal interface IInMemoryRoutingBuilder
 {
-    IInMemoryRoutingBuilder SetRoutingKey(Type type);
-    IInMemoryRoutingBuilder SetExchangeType(Type type);
+    IInMemoryRoutingBuilder SetRoutingKey(InMemoryRoutingAttribute attribute, Type type);
+    IInMemoryRoutingBuilder SetExchangeType(InMemoryRoutingAttribute attribute);
     InMemoryRouting Build(Type type);
 }

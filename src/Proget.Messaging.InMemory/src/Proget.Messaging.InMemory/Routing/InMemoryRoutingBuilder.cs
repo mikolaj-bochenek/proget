@@ -17,15 +17,15 @@ internal sealed class InMemoryRoutingBuilder : IInMemoryRoutingBuilder
         _messageRoutingOptions = new MessageRoutingOptions();
     }
 
-    public IInMemoryRoutingBuilder SetExchangeType(Type type)
+    public IInMemoryRoutingBuilder SetExchangeType(InMemoryRoutingAttribute attribute)
     {
-        _messageRoutingOptions.Exchange = GetAttribute(type)?.ExchangeType ?? _options.ExchangeType;
+        _messageRoutingOptions.Exchange = attribute.ExchangeType ?? _options.ExchangeType;
         return this;
     }
 
-    public IInMemoryRoutingBuilder SetRoutingKey(Type type)
+    public IInMemoryRoutingBuilder SetRoutingKey(InMemoryRoutingAttribute attribute, Type type)
     {
-        _messageRoutingOptions.RoutingKey = (GetAttribute(type)?.RoutingKey ?? _options.RoutingKey ?? type.Name)
+        _messageRoutingOptions.RoutingKey = (attribute.RoutingKey ?? _options.RoutingKey ?? type.Name)
             .Underscore();
         
         return this;
@@ -34,14 +34,11 @@ internal sealed class InMemoryRoutingBuilder : IInMemoryRoutingBuilder
     public InMemoryRouting Build(Type type)
     {
         var exchange = _messageRoutingOptions.Exchange
-            ?? throw new ArgumentNullException(nameof(_messageRoutingOptions.Exchange));
+            ?? throw new InvalidOperationException(nameof(_messageRoutingOptions.Exchange));
         
         var routingKey = _messageRoutingOptions.RoutingKey
-            ?? throw new ArgumentNullException(nameof(_messageRoutingOptions.RoutingKey));
+            ?? throw new InvalidOperationException(nameof(_messageRoutingOptions.RoutingKey));
         
         return new InMemoryRouting(type, exchange, routingKey);
     }
-        
-    private static InMemoryRoutingAttribute? GetAttribute(MemberInfo type)
-        => type.GetCustomAttribute<InMemoryRoutingAttribute>();
 }

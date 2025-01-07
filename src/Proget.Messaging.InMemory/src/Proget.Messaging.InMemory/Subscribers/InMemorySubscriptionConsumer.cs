@@ -25,6 +25,10 @@ internal sealed class InMemorySubscriptionConsumer : ISubscriptionConsumer
         var type = messageSubscription.Type;
         var callback = messageSubscription.Callback;
         var routing = _messageRoutingFactory.Get(type);
+        if (routing is null)
+        {
+            return;
+        }
 
         _messageListener.OnMessageReceived += async (messageEnvelope) =>
         {

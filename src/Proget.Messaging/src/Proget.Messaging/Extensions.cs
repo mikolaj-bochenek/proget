@@ -3,7 +3,7 @@ namespace Proget.Messaging;
 public static class Extensions
 {
     public static IMessageSubscriber UseMessaging(this IApplicationBuilder app)
-        => new MessageSubscriber(app.ApplicationServices.GetRequiredService<ISubscribersChannel>());
+        => new MessageSubscriber(app.ApplicationServices.GetRequiredService<ISubscriptionsRegistry>());
 
     public static IServiceCollection AddMessaging(
         this IServiceCollection services,
@@ -15,7 +15,7 @@ public static class Extensions
         services.AddSingleton<IMessagePublisher, MessagePublisher>();
         services.AddSingleton<IMessageSubscriber, MessageSubscriber>();
 
-        services.AddSingleton<ISubscribersChannel, SubscribersChannel>();
+        services.AddSingleton<ISubscriptionsRegistry, ChannelSubscriptionsRegistry>();
         services.AddHostedService<SubscriptionConsumerJob>();
 
         services.AddSingleton<ISerializer, NewtonsoftJsonSerializer>();

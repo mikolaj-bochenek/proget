@@ -22,6 +22,11 @@ internal sealed class InMemoryMessagePublisher : IMessagePublisherStrategy
     ) where TMessage : class, IMessage
     {
         var routing = _routingFactory.Get<TMessage>();
+        if (routing is null)
+        {
+            return;
+        }
+        
         var payload = _serializer.Serialize(message);
         var body = Encoding.UTF8.GetBytes(payload);
         var messageEnvelope = new MessageEnvelope(routing.ExchangeType, routing.RoutingKey, body);

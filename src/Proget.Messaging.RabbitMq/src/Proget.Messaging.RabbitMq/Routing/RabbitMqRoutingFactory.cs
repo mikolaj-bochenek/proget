@@ -9,13 +9,21 @@ internal sealed class RabbitMqRoutingFactory : IRabbitMqRoutingFactory
         _builder = builder;
     }
 
-    public RabbitMqRouting Get<TMessage>() where TMessage : class, IMessage
+    public RabbitMqRouting? Get<TMessage>() where TMessage : class, IMessage
         => Get(typeof(TMessage));
 
-    public RabbitMqRouting Get(Type type)
-        => _builder
-            .SetExchange(type)
-            .SetRoutingKey(type)
-            .SetQueue(type)
+    public RabbitMqRouting? Get(Type type)
+    {
+        var attribute = type.GetCustomAttribute<RabbitMqRoutingAttribute>();
+        if (attribute is null)
+        {
+            return null;
+        }
+
+        return _builder
+            .SetExchange(attribute, type)
+            .SetRoutingKey(attribute, type)
+            .SetQueue(attribute, type)
             .Build(type);
+    }
 }

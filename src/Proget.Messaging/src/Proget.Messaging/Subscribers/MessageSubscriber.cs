@@ -2,11 +2,11 @@ namespace Proget.Messaging.Subscribers;
 
 internal sealed class MessageSubscriber : IMessageSubscriber
 {
-    private readonly ISubscribersChannel _subscribersChannel;
+    private readonly ISubscriptionsRegistry _registry;
 
-    public MessageSubscriber(ISubscribersChannel subscribersChannel)
+    public MessageSubscriber(ISubscriptionsRegistry registry)
     {
-        _subscribersChannel = subscribersChannel;
+        _registry = registry;
     }
 
     public IMessageSubscriber Subscribe<TMessage>(Func<IServiceProvider, TMessage, Task> callback)
@@ -15,7 +15,7 @@ internal sealed class MessageSubscriber : IMessageSubscriber
         var type = typeof(TMessage);
         var subscription = new MessageSubscription(type, (sp, msg) => callback(sp, (TMessage)msg));
 
-        _subscribersChannel.Writer.TryWrite(subscription);
+        _registry.Add(subscription);
 
         return this;
     }
