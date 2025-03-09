@@ -12,15 +12,9 @@ public static class PutExtensions
         where TResponse : class
         where TId : notnull
     {
-        var routeHandlerBuilder = builder.MapPut(route, async ([FromRoute] TId id, [FromBody] TCommand command, IValidator<TCommand> validator, ICommandDispatcher dispatcher, CancellationToken cancellationToken) =>
+        var routeHandlerBuilder = builder.MapPut(route, async ([FromRoute] TId id, [FromBody] TCommand command, ICommandDispatcher dispatcher, CancellationToken cancellationToken) =>
         {
             command = preprocess(command, id);
-
-            var validationResult = await validator.ValidateAsync(command, cancellationToken);
-            if (!validationResult.IsValid)
-            {
-                return Results.BadRequest(validationResult.Errors);
-            }
             
             await dispatcher.SendAsync(command, cancellationToken);
             

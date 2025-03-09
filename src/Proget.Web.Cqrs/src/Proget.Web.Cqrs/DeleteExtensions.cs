@@ -12,15 +12,9 @@ public static class DeleteExtensions
         where TResponse : class
         where TId : notnull
     {
-        var routeHandlerBuilder = builder.MapDelete(route, async ([FromRoute] TId id, IValidator<TCommand> validator, ICommandDispatcher dispatcher, CancellationToken cancellationToken) =>
+        var routeHandlerBuilder = builder.MapDelete(route, async ([FromRoute] TId id, ICommandDispatcher dispatcher, CancellationToken cancellationToken) =>
         {
             var command = preprocess(id);
-
-            var validationResult = await validator.ValidateAsync(command, cancellationToken);
-            if (!validationResult.IsValid)
-            {
-                return Results.BadRequest(validationResult.Errors);
-            }
             
             await dispatcher.SendAsync(command, cancellationToken);
             

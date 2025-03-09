@@ -11,15 +11,9 @@ public static class PostExtensions
         where TCommand : class, ICommand
         where TResponse : class
     {
-        var routeHandlerBuilder = builder.MapPost(route, async (TCommand command, IValidator<TCommand> validator, ICommandDispatcher dispatcher, CancellationToken cancellationToken) =>
+        var routeHandlerBuilder = builder.MapPost(route, async (TCommand command, ICommandDispatcher dispatcher, CancellationToken cancellationToken) =>
         {
             command = preprocess(command);
-
-            var validationResult = await validator.ValidateAsync(command, cancellationToken);
-            if (!validationResult.IsValid)
-            {
-                return Results.BadRequest(validationResult.Errors);
-            }
             
             await dispatcher.SendAsync(command, cancellationToken);
             
