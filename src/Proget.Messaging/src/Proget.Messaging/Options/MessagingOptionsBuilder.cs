@@ -8,5 +8,4 @@ internal sealed class MessagingOptionsBuilder : IMessagingOptionsBuilder
     {
         Services = services;
     }
-    
 }
