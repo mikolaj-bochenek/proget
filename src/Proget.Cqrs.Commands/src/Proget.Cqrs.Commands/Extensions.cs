@@ -10,7 +10,7 @@ public static class Extensions
         services.AddSingleton<ICommandDispatcher, CommandDispatcher>();
         services.AddScopedServices(typeof(ICommandHandler<>), assemblies);
 
-        var builder = new CommandBuilder(services);
+        var builder = new CommandBuilder(services, assemblies);
         configure?.Invoke(builder);
         
         return services;

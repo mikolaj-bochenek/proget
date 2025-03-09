@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <Version>0.0.0</Version>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>Proget.Cqrs.Commands.Validation</AssemblyName>
+    <Title>Proget.Cqrs.Commands.Validation</Title>
+    <Authors>Mikołaj Bochenek</Authors>
+    <Company>Progmat</Company>
+    <Description>Proget.Cqrs.Commands.Validation</Description>
+    <PackageId>Proget.Cqrs.Commands.Validation</PackageId>
+    <PackageTags>Proget.Cqrs.Commands.Validation</PackageTags>
+    <PackageReleaseNotes>Proget.Cqrs.Commands.Validation</PackageReleaseNotes>
+    <PackageProjectUrl>https://github.com/softwave-pl/proget/wiki</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/softwave-pl/proget</RepositoryUrl>
+    <PackageRepositoryType>git</PackageRepositoryType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../../Proget.Cqrs.Commands/src/Proget.Cqrs.Commands/Proget.Cqrs.Commands.csproj" />
+    <ProjectReference Include="../../../Proget.Exceptions/src/Proget.Exceptions/Proget.Exceptions.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="11.4.0" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="11.2.2" />
+  </ItemGroup>
+</Project>
